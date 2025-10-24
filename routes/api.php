@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
+
+use App\Http\Controllers\QueryController;
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Log;
 
@@ -22,3 +25,4 @@ use App\Http\Controllers\ChatController;
 
 Route::get('/chat/start', [ChatController::class, 'start']);
 Route::post('/chat/respond', [ChatController::class, 'respond']);
+Route::post('/query', [QueryController::class, 'store']);

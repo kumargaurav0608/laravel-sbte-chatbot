@@ -24,10 +24,7 @@
             <input type="text" class="form-control" name="answer_text" value="{{ $answer->answer_text }}" required>
         </div>
 
-        <div class="mb-3">
-            <label for="next_question_id" class="form-label">Next Question ID (optional)</label>
-            <input type="number" class="form-control" name="next_question_id" value="{{ $answer->next_question_id }}">
-        </div>
+        
 
         <button type="submit" class="btn btn-primary">Update</button>
     </form>

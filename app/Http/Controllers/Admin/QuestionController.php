@@ -26,8 +26,9 @@ class QuestionController extends Controller
     public function create()
     {
         //
+        $questions=Question::all();
         $category=Category::all();
-        return view('admin.questions.create',compact('category'));
+        return view('admin.questions.create',compact('category','questions'));
     }
 
     /**

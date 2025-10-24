@@ -81,7 +81,7 @@ class AnswerController extends Controller
         $validated = $request->validate([
             'question_id' => 'required|exists:questions,id',
             'answer_text' => 'required|string|max:255',
-            'next_question_id' => 'nullable|exists:questions,id',
+            
         ]);
 
         $answer = Answer::findOrFail($id);

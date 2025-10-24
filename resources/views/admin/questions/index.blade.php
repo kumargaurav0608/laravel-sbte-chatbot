@@ -12,6 +12,7 @@
                     <th>ID</th>
                     <th>Question</th>
                     <th>Category</th>
+                    <th>Parent Question Id</th>
                     <th>Order</th>
                     <th>Actions</th>
                 </tr>
@@ -22,7 +23,8 @@
                         <td>{{ $q->id }}</td>
                         <td>{{ $q->question_text }}</td>
                         <td>{{ $q->category->name ?? 'N/A' }}</td>
-                        <td>{{ $q->category->order}}</td>
+                        <td>{{ $q->parent_question_id }}</td>
+                        <td>{{ $q->order}}</td>
                         <td>
                             <a href="{{ route('admin.questions.edit', $q) }}" class="btn btn-sm btn-warning">Edit</a>
                             

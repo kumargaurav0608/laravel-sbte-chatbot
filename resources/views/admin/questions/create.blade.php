@@ -24,8 +24,25 @@
                      @endforeach
             </select>
         </div>
+
+        <div class="form-group">
+            <label for="pqid">Parent Question ID</label>
+            <select name="Parent_Ques_id" id="Parent_Ques_id" class="form-select text-dark" >
+                    <option value="" selected disabled> Please Select</option>
+                    @foreach ($questions as $q )
+                        <option class="text-dark" value="{{ $q->id }}">{{ $q->question_text }}</option>
+                     @endforeach
+            </select>
+        </div>
+
+
+
+
+
         
-        <button class="btn btn-primary my-2 mx-auto  p-2 ">Save</button>
+        
+        <button class="btn btn-primary my-2 mx-auto  p-2 " type="submit">Save</button>
+        <button class="btn btn-primary my-2 mx-auto  p-2 " type="reset">Reset</button>
     </form>
 
 </div>

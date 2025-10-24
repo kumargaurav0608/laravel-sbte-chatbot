@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Category;
@@ -19,34 +20,52 @@ class ChatController extends Controller
 
     public function respond(Request $request)
     {
-        // User selected a category, return questions
+        // Step 1: User selects a category → return root questions
         if ($request->has('categoryId')) {
             $questions = Question::where('category_id', $request->categoryId)
+                ->whereNull('parent_question_id')
                 ->orderBy('order')
                 ->get(['id', 'question_text']);
+            
             return response()->json([
-                'reply' => 'Please choose an option:',
+                'reply' => 'Please choose a question:',
                 'questions' => $questions,
             ]);
         }
 
-        // User selected a question, return answer and next question if any
+        // Step 2: User selects a question → return sub-questions or answer
         if ($request->has('questionId')) {
-            $answer = Answer::where('question_id', $request->questionId)->first();
-            if (!$answer) {
-                return response()->json(['reply' => 'Sorry, no information available.']);
+            $questionId = $request->questionId;
+
+            // First, check if the question has sub-questions
+            $subQuestions = Question::where('parent_question_id', $questionId)
+                ->orderBy('order')
+                ->get(['id', 'question_text']);
+
+            if ($subQuestions->isNotEmpty()) {
+                return response()->json([
+                    'reply' => 'Please choose a sub-question:',
+                    'questions' => $subQuestions,
+                ]);
             }
-            $nextQuestion = null;
-            if ($answer->next_question_id) {
-                $next = Question::find($answer->next_question_id);
-                $nextQuestion = $next ? ['id' => $next->id, 'text' => $next->question_text] : null;
+
+            // If no sub-questions, check if it has an answer
+            $answer = Answer::where('question_id', $questionId)->first();
+            if ($answer) {
+                return response()->json([
+                    'reply' => $answer->answer_text,
+                    'askMore' => true, // flag for more question 
+                ]);
             }
+
+            // If no sub-questions or answer
             return response()->json([
-                'reply' => $answer->answer_text,
-                'nextQuestion' => $nextQuestion,
+                'reply' => 'Sorry, no further information available for this question.',
             ]);
         }
 
-        return response()->json(['reply' => 'Sorry, I did not understand that.']);
+        return response()->json([
+            'reply' => 'Sorry, I did not understand that.',
+        ]);
     }
 }

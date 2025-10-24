@@ -16,7 +16,6 @@
               <th>Question Id</th>
               <th>Question</th>
               <th>Answer</th>
-              <th>Next Question id</th>
               <th colspan="3" class="text-center">Action</th>
           </tr>
       </thead>
@@ -27,7 +26,7 @@
             <td>{{ $a->question_id }}</td> {{-- Consider showing question text instead of id if possible --}}
              <td>{{ $a->question ? $a->question->question_text : 'N/A' }}</td>  {{-- show question text --}}
             <td>{{ $a->answer_text }}</td>
-            <td>{{ $a->next_question_id }}</td>
+            
             
             <td><a href="{{ route('admin.answers.edit', $a) }}" class="btn btn-sm btn-primary">Edit</a></td>
             
